@@ -22,7 +22,7 @@ const MIN_FILAS = 2;
  * @returns {number}
  */
 function getDecimals() {
-    const el  = document.getElementById('decimals-select');
+    const el = document.getElementById('decimals-select');
     const raw = parseInt(el?.value, 10);
     if (isNaN(raw) || raw < 0) return 4;
     return raw;
@@ -49,7 +49,7 @@ function fmt(valor, decimals) {
  */
 function actualizarPreviewDecimales() {
     const d = getDecimals();
-    const ejemplo = (12.3456789).toFixed(d);
+    const ejemplo = (12).toFixed(d);
     const el = document.getElementById('decimals-preview');
     if (el) el.textContent = `Ej: ${ejemplo}`;
 }
@@ -130,7 +130,7 @@ function cambiarFilas(delta) {
  * Acepta cualquier entero ≥ 2.
  */
 function establecerFilas() {
-    const el  = document.getElementById('count-display');
+    const el = document.getElementById('count-display');
     const raw = parseInt(el?.value, 10);
     if (isNaN(raw) || raw < MIN_FILAS) {
         el.value = numFilas; // restaurar si el valor es inválido
@@ -149,11 +149,11 @@ function establecerFilas() {
  */
 function cargarEjemplo() {
     const datos = [
-        { x: 0,  y: 0    },
-        { x: 5,  y: 12.5 },
-        { x: 10, y: 25   },
+        { x: 0, y: 0 },
+        { x: 5, y: 12.5 },
+        { x: 10, y: 25 },
         { x: 15, y: 37.5 },
-        { x: 20, y: 50   },
+        { x: 20, y: 50 },
     ];
     numFilas = datos.length;
     generarTabla();
@@ -246,8 +246,8 @@ function seleccionarPuntos(puntos, xTarget) {
  */
 function calcular() {
     const contenedor = document.getElementById('resultado');
-    const xTarget    = parseFloat(document.getElementById('x-target').value);
-    const d          = getDecimals();   // decimales seleccionados
+    const xTarget = parseFloat(document.getElementById('x-target').value);
+    const d = getDecimals();   // decimales seleccionados
 
     // ── Validar X objetivo ──
     if (isNaN(xTarget)) {
@@ -264,7 +264,7 @@ function calcular() {
     }
 
     // ── Validar X duplicados ──
-    const xs   = puntos.map(p => p.x);
+    const xs = puntos.map(p => p.x);
     const xSet = new Set(xs);
     if (xs.length !== xSet.size) {
         mostrarError(contenedor, 'Hay valores de X duplicados. Cada X debe ser único.');
@@ -294,7 +294,7 @@ function calcular() {
                 </div>
             </div>`;
 
-    // ── Caso: interpolación / extrapolación ──
+        // ── Caso: interpolación / extrapolación ──
     } else {
         m = (p2.y - p1.y) / (p2.x - p1.x);
         y = p1.y + m * (xTarget - p1.x);
@@ -304,8 +304,8 @@ function calcular() {
             ? '⚠️ Extrapolación — x está fuera del rango de datos'
             : '✅ Interpolación — x está dentro del rango de datos';
         const colorResultado = esExtrapolacion ? 'var(--orange)' : 'var(--green)';
-        const tipoClase      = esExtrapolacion ? 'error' : 'success';
-        const tipoLabel      = esExtrapolacion ? '⚠️ Resultado Extrapolado' : '✅ Resultado Interpolado';
+        const tipoClase = esExtrapolacion ? 'error' : 'success';
+        const tipoLabel = esExtrapolacion ? '⚠️ Resultado Extrapolado' : '✅ Resultado Interpolado';
 
         resultadoHTML = `
             <div class="result-box ${tipoClase}">
@@ -384,13 +384,13 @@ function dibujarGrafica(puntos, p1, p2, xTarget, yInterp, extrapolacion) {
     if (graficaInterpolacion) graficaInterpolacion.destroy();
 
     const ctx = document.getElementById('miGrafica').getContext('2d');
-    const d   = getDecimals();
+    const d = getDecimals();
 
     // Extender la línea un 15 % a cada lado del segmento
-    const ext  = (p2.x - p1.x) * 0.15;
+    const ext = (p2.x - p1.x) * 0.15;
     const linX1 = p1.x - ext;
     const linX2 = p2.x + ext;
-    const m     = (p2.y - p1.y) / (p2.x - p1.x);
+    const m = (p2.y - p1.y) / (p2.x - p1.x);
     const linY1 = p1.y + m * (linX1 - p1.x);
     const linY2 = p1.y + m * (linX2 - p1.x);
 
@@ -467,7 +467,7 @@ function dibujarGrafica(puntos, p1, p2, xTarget, yInterp, extrapolacion) {
                 tooltip: {
                     backgroundColor: 'rgba(28,28,30,0.88)',
                     titleFont: { family: 'Inter', size: 13, weight: '600' },
-                    bodyFont:  { family: 'Inter', size: 12 },
+                    bodyFont: { family: 'Inter', size: 12 },
                     padding: 12,
                     cornerRadius: 10,
                     displayColors: false,
@@ -484,12 +484,12 @@ function dibujarGrafica(puntos, p1, p2, xTarget, yInterp, extrapolacion) {
                 x: {
                     type: 'linear',
                     position: 'bottom',
-                    grid:  { color: 'rgba(0,0,0,0.04)' },
+                    grid: { color: 'rgba(0,0,0,0.04)' },
                     ticks: { font: { family: 'Inter', size: 11 }, color: '#6C6C70' },
                     title: { display: true, text: 'Eje X', font: { family: 'Inter', size: 12, weight: '500' }, color: '#6C6C70' }
                 },
                 y: {
-                    grid:  { color: 'rgba(0,0,0,0.04)' },
+                    grid: { color: 'rgba(0,0,0,0.04)' },
                     ticks: { font: { family: 'Inter', size: 11 }, color: '#6C6C70' },
                     title: { display: true, text: 'Eje Y', font: { family: 'Inter', size: 12, weight: '500' }, color: '#6C6C70' }
                 }
