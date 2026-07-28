@@ -13,3 +13,6 @@ $RECYCLE.BIN/
 .idea/
 *.suo
 *.user
+
+# Documentos privados
+guia_interpolacion.md
