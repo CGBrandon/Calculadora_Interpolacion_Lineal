@@ -1,0 +1,1004 @@
+/* ═══════════════════════════════════════════════════════════
+   INTERPOLACIÓN LINEAL — Hoja de Estilos Principal
+   Autores: Brandon Uriel Calixto García · Kevin Avendaño Ramírez
+   ═══════════════════════════════════════════════════════════ */
+
+/* ────────────────────────────────────────────────────────────
+   1. VARIABLES GLOBALES (DESIGN TOKENS)
+   Aquí puedes cambiar colores, tamaños, sombras, radios, etc.
+   ──────────────────────────────────────────────────────────── */
+:root {
+    /* Colores de fondo */
+    --bg: #F2F2F7;
+    --card: rgba(255, 255, 255, 0.82);
+    --card-solid: #ffffff;
+
+    /* Texto */
+    --text-primary: #1C1C1E;
+    --text-secondary: #6C6C70;
+
+    /* Acento principal (azul) */
+    --accent: #007AFF;
+    --accent-h: #0063CC;
+    /* hover */
+    --accent-light: rgba(0, 122, 255, 0.10);
+    --accent-soft: rgba(0, 122, 255, 0.06);
+
+    /* Colores semánticos */
+    --green: #34C759;
+    --green-light: rgba(52, 199, 89, 0.10);
+    --red: #FF3B30;
+    --red-light: rgba(255, 59, 48, 0.08);
+    --orange: #FF9500;
+    --orange-light: rgba(255, 149, 0, 0.10);
+    --purple: #AF52DE;
+    --purple-light: rgba(175, 82, 222, 0.10);
+
+    /* Bordes y sombras */
+    --border: rgba(0, 0, 0, 0.07);
+    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
+    --shadow: 0 12px 36px rgba(0, 0, 0, 0.08), 0 2px 8px rgba(0, 0, 0, 0.04);
+    --shadow-lg: 0 24px 60px rgba(0, 0, 0, 0.10), 0 4px 16px rgba(0, 0, 0, 0.06);
+
+    /* Radios de borde */
+    --radius: 20px;
+    --radius-sm: 12px;
+    --radius-xs: 8px;
+
+    /* Tipografía */
+    --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
+    --font-size-base: 14px;
+    --font-size-sm: 13px;
+    --font-size-xs: 12px;
+    --font-size-lg: 16px;
+
+    /* Espaciado del layout */
+    --page-padding-v: 48px;
+    --page-padding-h: 20px;
+    --card-padding: 32px;
+    --gap-card: 24px;
+    --gap-section: 20px;
+}
+
+/* ────────────────────────────────────────────────────────────
+   2. RESET Y BASE
+   ──────────────────────────────────────────────────────────── */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: var(--font);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+    background: var(--bg);
+    color: var(--text-primary);
+    min-height: 100vh;
+    padding: var(--page-padding-v) var(--page-padding-h) 60px;
+    position: relative;
+    overflow-x: hidden;
+}
+
+/* ────────────────────────────────────────────────────────────
+   3. FONDO AMBIENTAL (CIRCLES)
+   ──────────────────────────────────────────────────────────── */
+.ambient {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.amb-1 {
+    position: absolute;
+    top: -8%;
+    left: 10%;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(0, 122, 255, 0.14) 0%, transparent 70%);
+    filter: blur(70px);
+}
+
+.amb-2 {
+    position: absolute;
+    bottom: -10%;
+    right: 5%;
+    width: 700px;
+    height: 700px;
+    background: radial-gradient(circle, rgba(175, 82, 222, 0.10) 0%, transparent 70%);
+    filter: blur(90px);
+}
+
+.amb-3 {
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, rgba(52, 199, 89, 0.07) 0%, transparent 70%);
+    filter: blur(60px);
+}
+
+/* ────────────────────────────────────────────────────────────
+   4. CONTENEDOR DE PÁGINA
+   ──────────────────────────────────────────────────────────── */
+.page {
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+/* ────────────────────────────────────────────────────────────
+   5. CABECERA / HEADER
+   ──────────────────────────────────────────────────────────── */
+.site-header {
+    text-align: center;
+    margin-bottom: 48px;
+}
+
+.badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 16px;
+    background: var(--accent-soft);
+    color: var(--accent);
+    border: 1px solid rgba(0, 122, 255, 0.15);
+    border-radius: 50px;
+    font-size: var(--font-size-xs);
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    margin-bottom: 14px;
+}
+
+.badge-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+}
+
+.site-header h1 {
+    font-size: clamp(32px, 5vw, 52px);
+    font-weight: 800;
+    letter-spacing: -0.035em;
+    color: var(--text-primary);
+    margin-bottom: 10px;
+    line-height: 1.1;
+}
+
+.site-header p {
+    font-size: var(--font-size-lg);
+    color: var(--text-secondary);
+    font-weight: 400;
+    max-width: 500px;
+    margin: 0 auto;
+    line-height: 1.6;
+}
+
+.authors {
+    margin-top: 16px;
+    display: inline-flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.author-chip {
+    padding: 5px 12px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 50px;
+    font-size: var(--font-size-xs);
+    font-weight: 500;
+    color: var(--text-secondary);
+    box-shadow: var(--shadow-sm);
+}
+
+/* ────────────────────────────────────────────────────────────
+   6. TABS DE NAVEGACIÓN
+   ──────────────────────────────────────────────────────────── */
+.tabs {
+    display: flex;
+    gap: 4px;
+    flex-wrap: wrap;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 6px;
+    margin-bottom: 32px;
+    box-shadow: var(--shadow-sm);
+}
+
+.tab-btn {
+    flex: 1;
+    min-width: 110px;
+    padding: 10px 16px;
+    background: transparent;
+    border: none;
+    border-radius: var(--radius-sm);
+    font-size: var(--font-size-sm);
+    font-weight: 600;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.tab-btn:hover {
+    color: var(--text-primary);
+    background: rgba(0, 0, 0, 0.03);
+}
+
+.tab-btn.active {
+    background: var(--accent);
+    color: #fff;
+    box-shadow: 0 4px 12px rgba(0, 122, 255, 0.30);
+}
+
+/* ────────────────────────────────────────────────────────────
+   7. SECCIONES (MOSTRAR / OCULTAR)
+   ──────────────────────────────────────────────────────────── */
+.section {
+    display: none;
+}
+
+.section.active {
+    display: block;
+}
+
+/* ────────────────────────────────────────────────────────────
+   8. TARJETAS DE VIDRIO (GLASS CARDS)
+   ──────────────────────────────────────────────────────────── */
+.card {
+    background: var(--card);
+    backdrop-filter: blur(30px);
+    -webkit-backdrop-filter: blur(30px);
+    border: 1px solid rgba(255, 255, 255, 0.85);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: var(--card-padding);
+    transition: box-shadow 0.3s ease;
+}
+
+.card+.card {
+    margin-top: var(--gap-section);
+}
+
+.card-title {
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin-bottom: 18px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.card-icon {
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+}
+
+/* ────────────────────────────────────────────────────────────
+   9. GRID DE INFORMACIÓN
+   ──────────────────────────────────────────────────────────── */
+.info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: var(--gap-section);
+    margin-bottom: var(--gap-section);
+}
+
+.info-block {
+    padding: 24px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border);
+    line-height: 1.7;
+    font-size: var(--font-size-base);
+    color: var(--text-secondary);
+}
+
+.info-block strong {
+    color: var(--text-primary);
+}
+
+.info-block h3 {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Etiquetas de color */
+.tag {
+    display: inline-block;
+    padding: 2px 8px;
+    background: var(--accent-light);
+    color: var(--accent);
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.tag.green {
+    background: var(--green-light);
+    color: var(--green);
+}
+
+.tag.purple {
+    background: var(--purple-light);
+    color: var(--purple);
+}
+
+.tag.orange {
+    background: var(--orange-light);
+    color: var(--orange);
+}
+
+/* ────────────────────────────────────────────────────────────
+   10. LÍNEA DE TIEMPO (TIMELINE)
+   ──────────────────────────────────────────────────────────── */
+.timeline {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+.timeline-item {
+    display: flex;
+    gap: 16px;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--border);
+}
+
+.timeline-item:last-child {
+    border-bottom: none;
+}
+
+.tl-year {
+    min-width: 56px;
+    font-size: var(--font-size-xs);
+    font-weight: 700;
+    color: var(--accent);
+    padding-top: 2px;
+}
+
+.tl-content h4 {
+    font-size: var(--font-size-base);
+    font-weight: 600;
+    margin-bottom: 3px;
+}
+
+.tl-content p {
+    font-size: var(--font-size-sm);
+    color: var(--text-secondary);
+    line-height: 1.6;
+}
+
+/* Imagen de referencia dentro de cada ítem de la línea de tiempo */
+.tl-img {
+    width: 100%;
+    max-height: 140px;
+    object-fit: cover;
+    border-radius: var(--radius-xs);
+    margin-bottom: 10px;
+    display: block;
+    border: 1px solid var(--border);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: zoom-in;
+}
+
+.tl-img:hover {
+    transform: scale(1.03);
+    box-shadow: var(--shadow);
+}
+
+/* ────────────────────────────────────────────────────────────
+   11. FÓRMULA (DISPLAY OSCURO)
+   ──────────────────────────────────────────────────────────── */
+.formula-display {
+    background: linear-gradient(135deg, #0D1117 0%, #161B22 100%);
+    border-radius: var(--radius-sm);
+    padding: 32px 24px;
+    text-align: center;
+    margin-bottom: 24px;
+    position: relative;
+    overflow: hidden;
+}
+
+.formula-display::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 30% 50%, rgba(0, 122, 255, 0.18) 0%, transparent 60%);
+}
+
+.formula-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    color: #6E7681;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+}
+
+.formula-main {
+    font-size: clamp(20px, 4vw, 30px);
+    font-weight: 600;
+    color: #E6EDF3;
+    letter-spacing: -0.01em;
+    position: relative;
+    z-index: 1;
+}
+
+.formula-main .var-x {
+    color: #79C0FF;
+}
+
+.formula-main .var-y {
+    color: #A5D6FF;
+}
+
+.formula-main .frac {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    vertical-align: middle;
+    margin: 0 4px;
+}
+
+.formula-main .frac-num {
+    border-bottom: 2px solid #79C0FF;
+    padding-bottom: 2px;
+    font-size: 0.85em;
+}
+
+.formula-main .frac-den {
+    padding-top: 2px;
+    font-size: 0.85em;
+}
+
+.formula-vars {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    justify-content: center;
+    margin-top: 24px;
+}
+
+.formula-var {
+    padding: 10px 16px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: var(--radius-xs);
+    font-size: var(--font-size-xs);
+    color: #8B949E;
+    line-height: 1.5;
+}
+
+.formula-var strong {
+    color: #E6EDF3;
+    display: block;
+    font-size: var(--font-size-base);
+    margin-bottom: 2px;
+}
+
+/* ────────────────────────────────────────────────────────────
+   12. TARJETAS DE PASOS
+   ──────────────────────────────────────────────────────────── */
+.steps-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 16px;
+}
+
+.step-card {
+    padding: 20px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border);
+    position: relative;
+}
+
+.step-num {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--accent);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--font-size-sm);
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.step-card h4 {
+    font-size: var(--font-size-base);
+    font-weight: 600;
+    margin-bottom: 6px;
+}
+
+.step-card p {
+    font-size: var(--font-size-sm);
+    color: var(--text-secondary);
+    line-height: 1.6;
+}
+
+/* ────────────────────────────────────────────────────────────
+   13. SECCIÓN CALCULADORA — LAYOUT
+   ──────────────────────────────────────────────────────────── */
+.calc-layout {
+    display: grid;
+    grid-template-columns: 1fr 1.3fr;
+    gap: var(--gap-card);
+}
+
+/* ────────────────────────────────────────────────────────────
+   14. CONTROLES DE FILA Y DECIMALES
+   ──────────────────────────────────────────────────────────── */
+.ctrl-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.ctrl-label {
+    font-size: var(--font-size-xs);
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    margin-right: auto;
+}
+
+.count-control {
+    display: flex;
+    align-items: center;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-xs);
+    overflow: hidden;
+    background: var(--bg);
+}
+
+.count-btn {
+    width: 34px;
+    height: 34px;
+    border: none;
+    background: transparent;
+    font-size: 18px;
+    cursor: pointer;
+    color: var(--accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.15s;
+}
+
+.count-btn:hover {
+    background: var(--accent-light);
+}
+
+.count-display {
+    width: 56px;
+    text-align: center;
+    font-size: var(--font-size-base);
+    font-weight: 700;
+    color: var(--text-primary);
+    border: none;
+    border-left: 1px solid var(--border);
+    border-right: 1px solid var(--border);
+    background: transparent;
+    height: 34px;
+    line-height: 34px;
+    outline: none;
+    padding: 0 4px;
+    cursor: text;
+    /* quitar flechas de spin */
+    -moz-appearance: textfield;
+}
+
+.count-display::-webkit-outer-spin-button,
+.count-display::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.count-display:focus {
+    background: var(--accent-soft);
+    color: var(--accent);
+}
+
+/* Control de decimales (input libre) */
+.decimals-wrap {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+    padding: 12px 16px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-xs);
+}
+
+.decimals-wrap label {
+    font-size: var(--font-size-xs);
+    font-weight: 600;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    white-space: nowrap;
+}
+
+.decimals-select {
+    width: 72px;
+    padding: 6px 10px;
+    background: var(--card-solid);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-xs);
+    font-size: var(--font-size-sm);
+    font-weight: 700;
+    color: var(--text-primary);
+    text-align: center;
+    cursor: text;
+    outline: none;
+    transition: border-color 0.2s ease;
+    /* quita las flechas de spin en Chrome/Safari */
+    -moz-appearance: textfield;
+}
+
+.decimals-select::-webkit-outer-spin-button,
+.decimals-select::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.decimals-select:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-light);
+}
+
+.decimals-preview {
+    font-size: var(--font-size-xs);
+    color: var(--text-secondary);
+    font-style: italic;
+    margin-left: 4px;
+}
+
+/* ────────────────────────────────────────────────────────────
+   15. TABLA DE DATOS
+   ──────────────────────────────────────────────────────────── */
+.data-table-wrap {
+    overflow-x: auto;
+    margin-bottom: 20px;
+}
+
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: var(--font-size-sm);
+}
+
+.data-table th {
+    background: var(--accent-soft);
+    color: var(--accent);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 10px 14px;
+    text-align: center;
+}
+
+.data-table th:first-child {
+    border-radius: 8px 0 0 8px;
+}
+
+.data-table th:last-child {
+    border-radius: 0 8px 8px 0;
+}
+
+.data-table td {
+    padding: 6px 8px;
+    text-align: center;
+}
+
+.data-table tbody tr:nth-child(even) td {
+    background: rgba(0, 0, 0, 0.015);
+}
+
+.data-table .row-num {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    width: 32px;
+}
+
+/* Inputs dentro de la tabla */
+.tbl-input {
+    width: 100%;
+    min-width: 70px;
+    padding: 8px 10px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-xs);
+    font-size: var(--font-size-base);
+    font-weight: 500;
+    color: var(--text-primary);
+    outline: none;
+    text-align: center;
+    transition: all 0.2s ease;
+}
+
+.tbl-input:focus {
+    background: #fff;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-light);
+}
+
+.tbl-input.highlight-row {
+    background: rgba(52, 199, 89, 0.08);
+    border-color: rgba(52, 199, 89, 0.4);
+    font-weight: 700;
+}
+
+/* ────────────────────────────────────────────────────────────
+   16. CAMPO X OBJETIVO
+   ──────────────────────────────────────────────────────────── */
+.x-target-wrap {
+    padding: 18px 20px;
+    background: var(--accent-soft);
+    border: 1px dashed rgba(0, 122, 255, 0.25);
+    border-radius: var(--radius-sm);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex-wrap: wrap;
+}
+
+.x-target-wrap label {
+    font-size: var(--font-size-sm);
+    font-weight: 600;
+    color: var(--accent);
+    white-space: nowrap;
+}
+
+.x-input {
+    flex: 1;
+    min-width: 120px;
+    padding: 10px 14px;
+    background: #fff;
+    border: 1px solid rgba(0, 122, 255, 0.25);
+    border-radius: var(--radius-xs);
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text-primary);
+    outline: none;
+    transition: all 0.2s ease;
+}
+
+.x-input:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-light);
+}
+
+/* ────────────────────────────────────────────────────────────
+   17. BOTONES
+   ──────────────────────────────────────────────────────────── */
+.btn-primary {
+    width: 100%;
+    padding: 14px;
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    border-radius: var(--radius-sm);
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 4px 14px rgba(0, 122, 255, 0.30);
+}
+
+.btn-primary:hover {
+    background: var(--accent-h);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 18px rgba(0, 122, 255, 0.40);
+}
+
+.btn-primary:active {
+    transform: scale(0.98);
+}
+
+.btn-secondary {
+    padding: 8px 14px;
+    background: transparent;
+    color: var(--accent);
+    border: 1px solid rgba(0, 122, 255, 0.25);
+    border-radius: var(--radius-xs);
+    font-size: var(--font-size-xs);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-secondary:hover {
+    background: var(--accent-light);
+}
+
+/* ────────────────────────────────────────────────────────────
+   18. CAJA DE RESULTADOS
+   ──────────────────────────────────────────────────────────── */
+.result-box {
+    margin-top: 20px;
+    padding: 22px;
+    border-radius: var(--radius-sm);
+    text-align: center;
+}
+
+.result-box.empty {
+    background: rgba(0, 0, 0, 0.02);
+    border: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.result-box.success {
+    background: var(--green-light);
+    border: 1px solid rgba(52, 199, 89, 0.25);
+}
+
+.result-box.error {
+    background: var(--red-light);
+    border: 1px solid rgba(255, 59, 48, 0.20);
+}
+
+.result-label {
+    font-size: var(--font-size-xs);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-secondary);
+    margin-bottom: 6px;
+}
+
+.result-value {
+    font-size: 34px;
+    font-weight: 800;
+    color: var(--green);
+    letter-spacing: -0.03em;
+}
+
+.result-value.empty-val {
+    font-size: 15px;
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+.result-value.error-val {
+    font-size: var(--font-size-base);
+    color: var(--red);
+    font-weight: 600;
+}
+
+.result-meta {
+    margin-top: 14px;
+    padding-top: 14px;
+    border-top: 1px dashed rgba(52, 199, 89, 0.25);
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    gap: 8px;
+    font-size: var(--font-size-xs);
+    color: var(--text-secondary);
+}
+
+.result-meta span strong {
+    color: var(--text-primary);
+}
+
+.selected-points-info {
+    margin-top: 14px;
+    padding: 12px 14px;
+    background: rgba(0, 122, 255, 0.06);
+    border: 1px solid rgba(0, 122, 255, 0.12);
+    border-radius: var(--radius-xs);
+    font-size: var(--font-size-xs);
+    color: var(--text-secondary);
+    text-align: left;
+    line-height: 1.7;
+}
+
+.selected-points-info strong {
+    color: var(--accent);
+}
+
+/* ────────────────────────────────────────────────────────────
+   19. GRÁFICA
+   ──────────────────────────────────────────────────────────── */
+.canvas-container {
+    position: relative;
+    width: 100%;
+    min-height: 360px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* ──────────────────────────────────────────────────────────────────
+   20. BANNER DE UNIVERSIDAD
+   ────────────────────────────────────────────────────────────────── */
+.uni-banner {
+    width: 100%;
+    border-radius: var(--radius);
+    overflow: hidden;
+    margin-bottom: 32px;
+    box-shadow: var(--shadow);
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    line-height: 0;
+    /* elimina espacio bajo la imagen */
+}
+
+.uni-banner img {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: cover;
+}
+
+/* ──────────────────────────────────────────────────────────────────
+   21. PIE DE PÁGINA
+   ────────────────────────────────────────────────────────────────── */
+.site-footer {
+    text-align: center;
+    margin-top: 48px;
+    font-size: var(--font-size-xs);
+    color: var(--text-secondary);
+}
+
+/* ────────────────────────────────────────────────────────────
+   21. RESPONSIVO
+   ──────────────────────────────────────────────────────────── */
+@media (max-width: 900px) {
+    .calc-layout {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 600px) {
+    :root {
+        --card-padding: 20px;
+        --gap-card: 16px;
+    }
+
+    .info-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .steps-list {
+        grid-template-columns: 1fr;
+    }
+
+    .tabs {
+        gap: 2px;
+    }
+
+    .tab-btn {
+        min-width: 80px;
+        font-size: var(--font-size-xs);
+    }
+}
