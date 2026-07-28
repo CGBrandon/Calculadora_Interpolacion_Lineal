@@ -399,7 +399,8 @@
                         <div class="count-control">
                             <button class="count-btn" onclick="cambiarFilas(-1)" title="Quitar fila">−</button>
                             <input type="number" id="count-display" class="count-display" value="5" min="2" step="1"
-                                title="Escribe el número de puntos que quieras" onchange="establecerFilas()"
+                                title="Escribe el número de puntos que quieras" onkeydown="permitirSoloEnteros(event)"
+                                oninput="validarNumeroPuntos(this)" onchange="establecerFilas()"
                                 onblur="establecerFilas()">
                             <button class="count-btn" onclick="cambiarFilas(1)" title="Agregar fila">+</button>
                         </div>
@@ -407,10 +408,9 @@
 
                     <!-- ── CONTROL DE DECIMALES ── -->
                     <div class="decimals-wrap">
-                        <label for="decimals-input">🔢 Decimales a mostrar:</label>
+                        <label for="decimals-select">🔢 Decimales a mostrar:</label>
                         <input type="number" id="decimals-select" class="decimals-select" value="4" min="0" max="20"
-                            step="1" oninput="actualizarPreviewDecimales()" placeholder="0-20">
-                        <span class="decimals-preview" id="decimals-preview">Ej: 12</span>
+                            step="1" onkeydown="permitirSoloEnteros(event)" oninput="validarDecimales(this)" placeholder="0-20">
                     </div>
 
                     <!-- Tabla dinámica de puntos -->
@@ -432,7 +432,8 @@
                     <!-- Valor X a interpolar -->
                     <div class="x-target-wrap">
                         <label for="x-target">🎯 Valor de X a interpolar:</label>
-                        <input type="number" id="x-target" class="x-input" placeholder="Ingresa x" step="any">
+                        <input type="number" id="x-target" class="x-input" placeholder="Ingresa x" step="any"
+                            onkeydown="permitirSoloDecimales(event, this)" oninput="validarInputDecimal(this)">
                     </div>
 
                     <!-- Botón calcular -->

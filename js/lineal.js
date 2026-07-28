@@ -23,8 +23,13 @@ const MIN_FILAS = 2;
  */
 function getDecimals() {
     const el = document.getElementById('decimals-select');
-    const raw = parseInt(el?.value, 10);
-    if (isNaN(raw) || raw < 0) return 4;
+    if (!el) return 4;
+    let raw = parseInt(el.value, 10);
+    if (isNaN(raw)) return 4;
+    if (raw < 0) {
+        raw = 0;
+        el.value = 0;
+    }
     return raw;
 }
 
@@ -40,18 +45,97 @@ function fmt(valor, decimals) {
 }
 
 /* ────────────────────────────────────────────────────────────
-   2. CONTROL DE DECIMALES
+   2. CONTROL Y VALIDACIÓN DE ENTRADAS NUMÉRICAS
    ──────────────────────────────────────────────────────────── */
 
 /**
- * Actualiza el texto de vista previa junto al selector de decimales.
- * Se llama cada vez que el usuario cambia el selector.
+ * Permite únicamente el ingreso de números enteros positivos (0-9).
+ * Bloquea e, E, +, -, ., , y cualquier letra o símbolo.
+ * @param {KeyboardEvent} e
  */
-function actualizarPreviewDecimales() {
-    const d = getDecimals();
-    const ejemplo = (12).toFixed(d);
-    const el = document.getElementById('decimals-preview');
-    if (el) el.textContent = `Ej: ${ejemplo}`;
+function permitirSoloEnteros(e) {
+    const permitidas = [
+        'Backspace', 'Delete', 'Tab', 'Escape', 'Enter',
+        'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', 'Home', 'End'
+    ];
+    if (permitidas.includes(e.key) || e.ctrlKey || e.metaKey) {
+        return;
+    }
+    if (!/^[0-9]$/.test(e.key)) {
+        e.preventDefault();
+    }
+}
+
+/**
+ * Permite únicamente dígitos, un punto decimal y un signo menos al inicio.
+ * Bloquea e, E, +, letras y caracteres especiales.
+ * @param {KeyboardEvent} e
+ * @param {HTMLInputElement} input
+ */
+function permitirSoloDecimales(e, input) {
+    const permitidas = [
+        'Backspace', 'Delete', 'Tab', 'Escape', 'Enter',
+        'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', 'Home', 'End'
+    ];
+    if (permitidas.includes(e.key) || e.ctrlKey || e.metaKey) {
+        return;
+    }
+    if (e.key === '.' || e.key === ',') {
+        if (input && (input.value.includes('.') || input.value.includes(','))) {
+            e.preventDefault();
+        }
+        return;
+    }
+    if (e.key === '-') {
+        if (input && (input.selectionStart !== 0 || input.value.includes('-'))) {
+            e.preventDefault();
+        }
+        return;
+    }
+    if (!/^[0-9]$/.test(e.key)) {
+        e.preventDefault();
+    }
+}
+
+/**
+ * Valida el selector de decimales: solo enteros positivos 0-20.
+ * @param {HTMLInputElement} [el]
+ */
+function validarDecimales(el) {
+    if (!el || !(el instanceof HTMLElement)) el = document.getElementById('decimals-select');
+    if (!el) return;
+    el.value = el.value.replace(/[^0-9]/g, '');
+    let val = parseInt(el.value, 10);
+    if (!isNaN(val) && val > 20) {
+        el.value = 20;
+    }
+}
+
+/**
+ * Valida el selector de número de puntos: solo enteros positivos.
+ * @param {HTMLInputElement} [el]
+ */
+function validarNumeroPuntos(el) {
+    if (!el || !(el instanceof HTMLElement)) el = document.getElementById('count-display');
+    if (!el) return;
+    el.value = el.value.replace(/[^0-9]/g, '');
+}
+
+/**
+ * Sanitiza campos de números reales / flotantes (X e Y).
+ * @param {HTMLInputElement} input
+ */
+function validarInputDecimal(input) {
+    if (!input) return;
+    let val = input.value.replace(',', '.');
+    if (val !== '' && val !== '-' && isNaN(Number(val))) {
+        val = val.replace(/[^0-9.-]/g, '');
+        const partes = val.split('.');
+        if (partes.length > 2) {
+            val = partes[0] + '.' + partes.slice(1).join('');
+        }
+        input.value = val;
+    }
 }
 
 /* ────────────────────────────────────────────────────────────
@@ -103,11 +187,15 @@ function generarTabla() {
             <td class="row-num">${i + 1}</td>
             <td>
                 <input type="number" class="tbl-input input-x"
-                       id="px${i}" placeholder="-" step="any" value="${vx}">
+                       id="px${i}" placeholder="-" step="any" value="${vx}"
+                       onkeydown="permitirSoloDecimales(event, this)"
+                       oninput="validarInputDecimal(this)">
             </td>
             <td>
                 <input type="number" class="tbl-input input-y"
-                       id="py${i}" placeholder="-" step="any" value="${vy}">
+                       id="py${i}" placeholder="-" step="any" value="${vy}"
+                       onkeydown="permitirSoloDecimales(event, this)"
+                       oninput="validarInputDecimal(this)">
             </td>
         `;
         tbody.appendChild(tr);
@@ -131,6 +219,7 @@ function cambiarFilas(delta) {
  */
 function establecerFilas() {
     const el = document.getElementById('count-display');
+    validarNumeroPuntos(el);
     const raw = parseInt(el?.value, 10);
     if (isNaN(raw) || raw < MIN_FILAS) {
         el.value = numFilas; // restaurar si el valor es inválido
@@ -503,6 +592,6 @@ function dibujarGrafica(puntos, p1, p2, xTarget, yInterp, extrapolacion) {
    ──────────────────────────────────────────────────────────── */
 window.addEventListener('DOMContentLoaded', () => {
     generarTabla();
-    actualizarPreviewDecimales();
+    validarDecimales();
     cargarEjemplo();
 });
