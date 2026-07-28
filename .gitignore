@@ -14,5 +14,7 @@ $RECYCLE.BIN/
 *.suo
 *.user
 
-# Documentos privados
-guia_interpolacion.md
+# Documentos privados y guías de estudio
+guia_*
+*.pdf
+
