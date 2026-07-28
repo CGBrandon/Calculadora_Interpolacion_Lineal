@@ -49,9 +49,9 @@ function fmt(valor, decimals) {
  */
 function actualizarPreviewDecimales() {
     const d = getDecimals();
-    const ejemplo = (3.141592653589793).toFixed(d);
+    const ejemplo = (12.3456789).toFixed(d);
     const el = document.getElementById('decimals-preview');
-    if (el) el.textContent = `Ej: π = ${ejemplo}`;
+    if (el) el.textContent = `Ej: ${ejemplo}`;
 }
 
 /* ────────────────────────────────────────────────────────────
